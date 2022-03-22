@@ -37,14 +37,14 @@ class ComposerStaticInit6dca255637b09d6138ff1203627a9022
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
         ),
-        'L' => 
-        array (
-            'LenovoT440\\MySymfony\\' => 21,
-        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -87,10 +87,6 @@ class ComposerStaticInit6dca255637b09d6138ff1203627a9022
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'LenovoT440\\MySymfony\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -98,6 +94,10 @@ class ComposerStaticInit6dca255637b09d6138ff1203627a9022
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
