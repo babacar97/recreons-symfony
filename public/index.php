@@ -6,6 +6,8 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -19,25 +21,20 @@ $context->fromRequest($request);
 
 $urlMatcher = new UrlMatcher($routes, $context);
 
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
+
 $pathInfo = $request->getPathInfo();
 
 try {
     $resultat = ($urlMatcher->match($request->getPathInfo()));
     $request->attributes->add($resultat);
 
-
-    $className = substr($resultat['_controller'], 0, strpos($resultat['_controller'], '@'));
-
-
-    $methodeName = substr(
-        $resultat['_controller'],
-        strpos($resultat['_controller'], '@') + 1
-    );
-    //Voila un exemple de collable
-    $controller = [new $className, $methodeName];
+    $controller = $controllerResolver->getController($request);
+    $argument = $argumentResolver->getArguments($request, $controller);
 
 
-    $response = call_user_func($controller, $request);
+    $response = call_user_func_array($controller, $argument);
     // die();
     // extract($resultat);
     // extract($request->query->all());
