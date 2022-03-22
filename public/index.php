@@ -24,8 +24,20 @@ $pathInfo = $request->getPathInfo();
 try {
     $resultat = ($urlMatcher->match($request->getPathInfo()));
 
+
+
+    $className = substr($resultat['_controller'], 0, strpos($resultat['_controller'], '@'));
+
+
+    $methodeName = substr(
+        $resultat['_controller'],
+        strpos($resultat['_controller'], '@') + 1
+    );
+    //Voila un exemple de collable
+    $controller = [new $className, $methodeName];
+
     $request->attributes->add($resultat);
-    $response = call_user_func($resultat['_controller'], $request);
+    $response = call_user_func($controller, $request);
     // die();
     // extract($resultat);
     // extract($request->query->all());

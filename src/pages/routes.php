@@ -11,14 +11,14 @@ $routes->add('hello', new Route(
     '/hello/{name}',
     [
         'name' => 'word',
-        '_controller' => [new App\Controller\GreetingController, 'hello']
+        '_controller' => 'App\Controller\GreetingController@hello'
     ]
 ));
 $routes->add('buy', new Route('/buy', [
-    '_controller' => [new App\Controller\GreetingController, 'buy']
+    '_controller' => 'App\Controller\GreetingController@buy'
 ]));
 $routes->add('about', new Route('/a-propos', [
-    '_controller' => [new App\Controller\PageController, 'about']
+    '_controller' => 'App\Controller\PageController@about'
 ]));
 
 
