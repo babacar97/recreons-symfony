@@ -13,8 +13,16 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 require __DIR__ . '/../vendor/autoload.php';
 $request = Request::createFromGlobals();
 
+$routes = require __DIR__ . '/../src/pages/routes.php';
 
-$framework = new Framework\Simplex;
+$context = new RequestContext();
+// $context->fromRequest($request);
+
+$urlMatcher = new UrlMatcher($routes, $context);
+
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
+$framework = new Framework\Simplex($urlMatcher, $controllerResolver, $argumentResolver);
 
 $response = $framework->handle($request);
 

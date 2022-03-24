@@ -10,44 +10,36 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-
-
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 class Simplex
 {
-    // protected UrlMatcher $urlMatcher;
-    // protected ArgumentResolver $argumentResolver;
-    // protected ControllerResolver $controllerResolver;
 
-    // public function __construct(UrlMatcher $urlMatcher, ArgumentResolver $argumentResolver, ControllerResolver $controllerResolver)
-    // {
-    //     $this->argumentResolver = $argumentResolver;
-    //     $this->controllerResolver = $controllerResolver;
-    //     $this->urlMatcher = $urlMatcher;
-    // }
+
+    protected  $urlMatcher;
+    protected  $controllerResolver;
+    protected $argumentResolver;
+
+    public function __construct(UrlMatcherInterface $urlMatcher, ControllerResolverInterface $controllerResolver, ArgumentResolverInterface $argumentResolver)
+    {
+        $this->urlMatcher = $urlMatcher;
+        $this->controllerResolver = $controllerResolver;
+        $this->argumentResolver = $argumentResolver;
+    }
 
     public function handle(Request $request)
     {
-        $routes = require __DIR__ . '/../src/pages/routes.php';
-
-        $context = new RequestContext();
-        $context->fromRequest($request);
-
-        $urlMatcher = new UrlMatcher($routes, $context);
-
-        $controllerResolver = new ControllerResolver();
-        $argumentResolver = new ArgumentResolver();
-
-        $pathInfo = $request->getPathInfo();
-
+        $this->urlMatcher->getContext()->fromRequest($request);
         try {
 
-            $request->attributes->add($urlMatcher->match($request->getPathInfo()));
+            $request->attributes->add($this->urlMatcher->match($request->getPathInfo()));
 
-            $controller = $controllerResolver->getController($request);
-            $argument = $argumentResolver->getArguments($request, $controller);
+            $controller = $this->controllerResolver->getController($request);
+            $argument = $this->argumentResolver->getArguments($request, $controller);
 
 
             $response = call_user_func_array($controller, $argument);
