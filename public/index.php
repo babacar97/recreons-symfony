@@ -27,8 +27,8 @@ $argumentResolver = new ArgumentResolver();
 $pathInfo = $request->getPathInfo();
 
 try {
-    $resultat = ($urlMatcher->match($request->getPathInfo()));
-    $request->attributes->add($resultat);
+
+    $request->attributes->add($urlMatcher->match($request->getPathInfo()));
 
     $controller = $controllerResolver->getController($request);
     $argument = $argumentResolver->getArguments($request, $controller);
