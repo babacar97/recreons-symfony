@@ -17,22 +17,33 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Simplex
 {
-    protected UrlMatcher $urlMatcher;
-    protected ArgumentResolver $argumentResolver;
-    protected ControllerResolver $controllerResolver;
+    // protected UrlMatcher $urlMatcher;
+    // protected ArgumentResolver $argumentResolver;
+    // protected ControllerResolver $controllerResolver;
 
-    public function __construct(UrlMatcher $urlMatcher, ArgumentResolver $argumentResolver, ControllerResolver $controllerResolver)
-    {
-        $this->argumentResolver = $argumentResolver;
-        $this->controllerResolver = $controllerResolver;
-        $this->urlMatcher = $urlMatcher;
-    }
+    // public function __construct(UrlMatcher $urlMatcher, ArgumentResolver $argumentResolver, ControllerResolver $controllerResolver)
+    // {
+    //     $this->argumentResolver = $argumentResolver;
+    //     $this->controllerResolver = $controllerResolver;
+    //     $this->urlMatcher = $urlMatcher;
+    // }
 
     public function handle(Request $request)
     {
+        $routes = require __DIR__ . '/../src/pages/routes.php';
 
-        $this->urlMatcher->getContext()->fromRequest($request);
+        $context = new RequestContext();
+        $context->fromRequest($request);
+
+        $urlMatcher = new UrlMatcher($routes, $context);
+
+        $controllerResolver = new ControllerResolver();
+        $argumentResolver = new ArgumentResolver();
+
+        $pathInfo = $request->getPathInfo();
+
         try {
+
             $request->attributes->add($urlMatcher->match($request->getPathInfo()));
 
             $controller = $controllerResolver->getController($request);
@@ -54,7 +65,6 @@ class Simplex
 
             $response = new Response("Une erreur est arrivé sur le serveur", 500);
         }
-
         return $response;
     }
 }

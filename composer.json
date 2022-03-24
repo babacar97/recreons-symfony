@@ -2,7 +2,8 @@
     "name": "lenovo-t440/my-symfony",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Framework\\": "framework/"
         }
     },
     "authors": [
