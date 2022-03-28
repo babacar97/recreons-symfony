@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'b060c0e1c0518f347e6bff8d2cb802c45594b1e4',
+        'reference' => 'b33a07a9d581dba8e22f2fa88a8dc01d0eb12d6d',
         'name' => 'lenovo-t440/my-symfony',
         'dev' => true,
     ),
@@ -25,7 +25,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'b060c0e1c0518f347e6bff8d2cb802c45594b1e4',
+            'reference' => 'b33a07a9d581dba8e22f2fa88a8dc01d0eb12d6d',
             'dev_requirement' => false,
         ),
         'myclabs/deep-copy' => array(
